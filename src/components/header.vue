@@ -1,15 +1,28 @@
-<style lang="scss">
+<style lang="scss" scoped>
     .m-nav
     {
+        overflow: hidden;
         .item
         {
-            width: 33%;
+            float:left;
+            width: 33.33%;
+            height: 40px;
+            line-height: 40px;
+            background-color: #009dd7;
+            text-align: center;
+            a { color: #fff}
         }
+    }
+    .m-header
+    {
+        height:50px;
+        background-color: #009dd7;
+        line-height: 50px;
+        color: #fff;
     }
 </style>
 <template>
     <div class="m-header">
-        <div class="logo"><img src="" alt=""></div>
         <span>读读日报</span>
         <i class="search iconfont"></i>
         <i class="add iconfont"></i>
@@ -21,14 +34,17 @@
 </template>
 <script>
     module.exports = {
-        data: function(){
-            return {
-                items: [
-                    { href: "/", title: "首页"},
-                    { href: "/explore", title: "发现"},
-                    { href: "/message", title: "消息"}
-                ]
+        route:{
+            data: function(){
+                return {
+                    items: [
+                        { href: "/", title: "首页"},
+                        { href: "/explore", title: "发现"},
+                        { href: "/message", title: "消息"}
+                    ]
+                }
             }
         }
+        
     }
 </script>

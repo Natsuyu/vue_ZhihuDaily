@@ -28,11 +28,11 @@ module.exports = {
             '^/remove/api' : '/api'       // remove path 
     },//不懂
     proxyTable: { 
-        '/api/4/news/latest': {target: 'http://news-at.zhihu.com/',changeOrigin:true},
+        '/api': {target: 'http://news-at.zhihu.com/',changeOrigin:true},
         // '/pic/*': {target: ' ',changeOrigin:true},
-        '/news/**': {target: "http://news-at.zhihu.com/api/4/", changeOrigin: true}
-        // //加一个changeOrigin就对了，嘤嘤嘤，要哭
-        // 'localhost:8080': 'http://news-at.zhihu.com/api/4/news/latest'
+        '/news/**': {target: "http://news-at.zhihu.com/api/4/", changeOrigin: true},
+        '/css': {target: 'http://news-at.zhihu.com/',changeOrigin:true}
+        // //加一个changeOrigin就对了，嘤嘤嘤
     },
 
     

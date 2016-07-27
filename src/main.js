@@ -2,12 +2,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import VueResource from 'vue-resource'
 
-var index = require('./components/index'),
-    explore = require('./components/explore'),
-    message = require('./components/message'),
-    header = require('./components/header'),
-    article = require('./components/article')
-
+import index from './components/index'
+import explore  from './components/explore'
+import message from './components/message'
+import header from './components/header'
+import article from './components/article'
+import hh from './components/Hello'
 Vue.use(VueRouter)
 // Vue.use(VueResource)
 
@@ -15,6 +15,9 @@ var App = Vue.extend({}),
     Router = new VueRouter({})
 
 Router.map({
+    '/he': {
+        component: hh
+    },
     '/': {
         component: header,
         subRoutes: {

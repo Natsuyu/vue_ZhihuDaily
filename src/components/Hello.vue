@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1 @click="hahaha(msg)">{{ msg }}</h1>
   </div>
 </template>
 
@@ -13,6 +13,11 @@ export default {
       // preserves its current state and we are modifying
       // its initial state.
       msg: 'Hello World!'
+    }
+  },
+  methods: {
+    hahaha (t) {
+      console.log(t)
     }
   }
 }
