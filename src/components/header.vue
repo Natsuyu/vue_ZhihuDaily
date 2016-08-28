@@ -1,24 +1,25 @@
 <style lang="scss" scoped>
-    .m-nav
-    {
+    .m-nav {
         overflow: hidden;
-        .item
-        {
-            float:left;
+        .item {
+            float: left;
             width: 33.33%;
             height: 40px;
             line-height: 40px;
             background-color: #009dd7;
             text-align: center;
-            a { color: #fff}
+            a {
+                color: #fff
+            }
         }
     }
-    .m-header
-    {
-        height:50px;
+    
+    .m-header {
+        height: 50px;
         background-color: #009dd7;
         line-height: 50px;
         color: #fff;
+        padding: 10px;
     }
 </style>
 <template>
@@ -34,17 +35,22 @@
 </template>
 <script>
     module.exports = {
-        route:{
-            data: function(){
+        route: {
+            data: function() {
                 return {
-                    items: [
-                        { href: "/", title: "首页"},
-                        { href: "/explore", title: "发现"},
-                        { href: "/message", title: "消息"}
-                    ]
+                    items: [{
+                        href: "/",
+                        title: "首页"
+                    }, {
+                        href: "/explore",
+                        title: "发现"
+                    }, {
+                        href: "/message",
+                        title: "消息"
+                    }]
                 }
             }
         }
-        
+
     }
 </script>

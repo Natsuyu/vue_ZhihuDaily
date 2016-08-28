@@ -41,7 +41,8 @@
     }
     .m-content
     {
-        padding: 10px 15px 55px;
+        padding: 52px 15px 55px;
+
     }
     .m-footer
     {
@@ -64,6 +65,7 @@
             height: 30px;
         }
     }
+    
 </style>
 <template>
     <div class="m-header">
@@ -71,10 +73,10 @@
         文章
         <span class="z-option iconfont">&#xe609;</span>
     </div>
-    <div class="m-title">
+    <!-- <div class="m-title">
         <div class="img"><img :src="headImg" alt=""></div>
         <div class="title">{{title}}</div>
-    </div>
+    </div> -->
     <div class="m-content">
         {{{ body }}}
     </div>
@@ -100,20 +102,18 @@
                 return jq.ajax({
                     url: "http://localhost:8080/news/"+id
                 }).then(function(data){
-                    console.log(data)
                     var tmp = data.css[0].split('/')
                     tmp[2] = "localhost:8080"
                     jq.ajax({
                         url: tmp.join('/')
                     }).then(function(res){
-                        console.log(res)
                         that.style = res.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')
                     })
                     return {
                         title: data.title,
-                        headImg: data.image.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p'),
-                        img: data.images[0].replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p'),
-                        body: data.body.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p'),
+                        headImg: that.getSrc(data.image),
+                        img: that.getSrc(data.images[0]),
+                        body: that.getSrc(data.body),
                         styleLink: data.css[0]
                     }
                 })
@@ -123,10 +123,17 @@
         methods: {
             getSrc: function(src){
                 var tmp = src.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')
-                console.log("I am tmp...: " + tmp)
                 return tmp
-            },
-
+            }
+        },
+        watch: {
+            'headImg': function(){
+                var sel = document.querySelector(".img-place-holder")
+                console.log("I am sel: ")
+                console.log(sel)
+                sel.style.cssText = "background: url(" + this.headImg + ");"
+            }
         }
+
     }
 </script>

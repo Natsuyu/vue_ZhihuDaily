@@ -29,8 +29,7 @@ module.exports = {
     },//不懂
     proxyTable: { 
         '/api': {target: 'http://news-at.zhihu.com/',changeOrigin:true},
-        // '/pic/*': {target: ' ',changeOrigin:true},
-        '/news/**': {target: "http://news-at.zhihu.com/api/4/", changeOrigin: true},
+        '/news': {target: "http://news-at.zhihu.com/api/4/", changeOrigin: true},
         '/css': {target: 'http://news-at.zhihu.com/',changeOrigin:true}
         // //加一个changeOrigin就对了，嘤嘤嘤
     },

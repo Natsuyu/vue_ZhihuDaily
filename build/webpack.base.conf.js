@@ -5,6 +5,7 @@ var projectRoot = path.resolve(__dirname, '../')
 
 module.exports = {
   entry: {
+    // static_css: './static/index.scss',
     app: './src/main.js'
   },
   output: {
@@ -36,6 +37,10 @@ module.exports = {
         include: projectRoot,
         exclude: /node_modules/
       },
+      // {
+      //   test: /\.scss$/,
+      //   loader: 'scss-loader'
+      // },
       {
         test: /\.json$/,
         loader: 'json'

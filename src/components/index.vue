@@ -1,81 +1,69 @@
 <style lang="scss">
-a
-{
-    color:#000;
-    text-decoration: none;   
-}
-.wrapper
-{
-    width: 100%;
-    background-color: #eee;
-    .box
-    {
+    .wrapper {
+        font-size: 0.8rem;
         width: 100%;
-        box-sizing: border-box;
-        padding:10px;
-        background-color: #fff;
-        margin-bottom: 5px;
-    }
-    img
-    {
-        float:left;
-        border-radius: 3px;
-    }
-    .m-head
-    {
-        height: 30px;
-        img
-        {
-            width: 30px;
-            height:30px;
+        background-color: #eee;
+        .box {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            background-color: #fff;
+            margin-bottom: 5px;
         }
-        .msg-from, .time
-        {
-            margin-left:40px;
-        }
-    }
-    .m-body
-    {
-        margin: 10px 0;
-        overflow: hidden;
-        .title
-        {
-            padding:10px 5px;
-            margin-left: 50px;
-        }
-        img
-        {
-            width: 50px;
-            height: 50px;
-        }
-    }
-    .m-footer
-    {
-        height: 30px;
-        margin: 10px 0;
-        .cmt, .favour
-        {
+        img {
             float: left;
-            width: 50px;
-            height: 20px;
-            line-height: 20px;
-            padding:0 10px;
-            // box-sizing: border-box;
+            border-radius: 3px;
         }
-        .cmt 
-        {
-            border-right: 1px solid #c3c3c3;
+        .m-head {
+            height: 30px;
+            img {
+                width: 30px;
+                height: 30px;
+            }
+            .msg-from,
+            .time {
+                margin-left: 40px;
+            }
         }
-        .detail
-        {
-            float: right;
+        .msg-from {
+            color: #009dd7;
+        }
+        .m-body {
+            margin: 10px 0;
+            overflow: hidden;
+            .title {
+                padding: 10px 5px;
+                margin-left: 50px;
+            }
+            img {
+                width: 50px;
+                height: 50px;
+            }
+        }
+        .m-footer {
+            height: 30px;
+            margin: 10px 0;
+            .cmt,
+            .favour {
+                float: left;
+                width: 50px;
+                height: 20px;
+                line-height: 20px;
+                padding: 0 10px;
+                // box-sizing: border-box;
+            }
+            .cmt {
+                border-right: 1px solid #c3c3c3;
+            }
+            .detail {
+                float: right;
+            }
         }
     }
-}
 </style>
 <template>
-    <div class="wrapper" v-on:scroll="toLoad">
-        <div class="box" v-for="data in datas">
+    <div class="wrapper" v-on:scroll="toLoad" v-for="perDay in Days">
+        <div class="box" v-for="data in perDay">
             <div class="m-head">
                 <div class="pic"><img :src="getSrc(data.images[0])" alt=""></div>
                 <div class="msg-from">知乎日报</div>
@@ -100,70 +88,85 @@ a
     var clientHeight, boxHeight, screenHeight, scrollTop
     module.exports = {
         route: {
-            data: function(){
+            data: function() {
                 return this.getData()
             }
         },
-        data: function(){
+        data: function() {
             return {
-                test: "hehe",
-                datas: [],
+                Days: [],
                 date: 0,
                 onLoading: false
             }
         },
-        ready: function(){
-            console.log("I am ready")                       //however ready is not equal to loaded...
-            clientHeight = document.body.clientHeight
-            screenHeight = window.screen.height
+        ready: function() {
             window.onscroll = this.toLoad
         },
 
         methods: {
-            getHref: function(href){
-                return "/article/"+href
-                // return "http://news-at.zhihu.com/api/4/news/"+href
+            getHref: function(href) {
+                return "/article/" + href
             },
-            getSrc: function(src){
+            getSrc: function(src) {
                 return src.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')
             },
-            toLoad: function(){
-                if(this.onLoading) return
+            toLoad: function() {
+                if (this.onLoading) return
                 clientHeight = document.body.clientHeight
                 screenHeight = window.screen.height
                 scrollTop = window.scrollY
                 console.log(clientHeight, screenHeight)
-                if(clientHeight-scrollTop <= screenHeight) {
+                if (clientHeight - scrollTop <= screenHeight) {
                     this.onLoading = true
                     this.getData()
                 }
             },
-            getData: function(ndate){
-               var url = "http://localhost:8080/api/4/news/latest",
-                   that = this
-               if(this.date) url="http://localhost:8080/api/4/news/before/"+this.date
-               if(this.datas) console.log(this.datas)
-               console.log(url)
-               return jq.ajax({
+            getData: function(ndate) {
+                var url = "/api/4/news/latest",
+                    that = this,
+                    arr = []
+                console.log(this)
+                if (this.date && !ndate) url = "/api/4/news/before/" + this.date
+                return jq.ajax({
                         url: url,
                         type: 'get'
-                    }).then(function(res){
-                        console.log(res)
-                        var x = res.stories.forEach(function(item){
-                            jq.ajax({
-                                url: 'http://localhost:8080/api/4/story-extra/'+item.id,
-                            }).then(function(res){
-                                console.log("Add!!")
-                                item.favour = res.popularity
-                                item.comments = res.comments
-                                that.datas.push(item)
-                            })
-                        })
+                    })
+                    .then(function(res) {
                         that.date = res.date
+                        arr = res.stories
+                        return that.getExtra(arr)
+                    })
+                    .then(function(res) {
+                        that.Days.push(arr)
                         that.onLoading = false
-                })
+                        return {
+
+                        }
+                    })
+            },
+            getExtra: function(res) {
+                var that = this,
+                    arr = []
+                return Promise.all(res.map(function(item) {
+                    return jq.ajax({
+                        url: 'http://localhost:8080/api/4/story-extra/' + item.id
+                    }).
+                    then(function(res) {
+                        console.log(res)
+                        item.favour = res.popularity
+                        item.comments = res.comments
+                    })
+                }))
+            },
+            getUpdate: function() {
+                if (this.onLoading) return
+                scrollTop = window.scrollY
+                if (scrollTop <= 0) {
+                    this.onLoading = true
+                    this.getData(true)
+                }
             }
         }
-        
+
     }
 </script>

@@ -51,7 +51,6 @@ app.use(devMiddleware)
 // enable hot-reload and state-preserving
 // compilation error display
 app.use(hotMiddleware)
-// app.use('/api', proxyMiddleware({'target': 'http://neews-at.zhihu.com/api/4/news', changeOrigin: true}));
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))

@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
-    <title>webapp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+    <!--以上:宽度为设备宽度， 初始缩放比例为1.0， 不允许缩放， 加载的时候隐藏地址栏和菜单栏（ios7新增）-->
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <!--以上:是否开启webapp，这样可以关闭苹果的菜单栏和工具栏-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!--以上:当启动webapp的时候，显示手机信号，电池的导航栏颜色，默认白色，可有黑色和灰色-->
+    <title>Vue-Daily</title>
     <link rel="stylesheet" href="/static/iconfont.css">
     <link rel="stylesheet" href="http://news-at.zhihu.com/css/news_qa.auto.css?v=4b3e3">
-  </head>
-  <body>
+    <link rel="stylesheet" href="/static/index.css">
+</head>
+
+<body>
     <router-view></router-view>
     <!-- built files will be auto injected -->
-  </body>
+</body>
+
 </html>
